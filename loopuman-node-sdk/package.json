@@ -1,0 +1,22 @@
+{
+  "name": "loopuman",
+  "version": "1.0.2",
+  "description": "The Human API for AI — Post tasks to verified humans, get results in minutes, pay in 8 seconds via blockchain.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "ai","human-in-the-loop","microtasks","agents","mcp","claude","openai",
+    "langchain","data-labeling","content-moderation","rlhf","blockchain",
+    "celo","loopuman","gig-economy"
+  ],
+  "author": "Loopuman <hello@loopuman.com>",
+  "license": "MIT",
+  "homepage": "https://loopuman.com",
+  "repository": {"type": "git","url": "https://github.com/seesayearn-boop/loopuman-mcp"},
+  "bugs": {"url": "https://github.com/seesayearn-boop/loopuman-mcp/issues"},
+  "engines": {"node": ">=14.0.0"},
+  "files": ["index.js","index.d.ts","README.md","LICENSE"]
+}

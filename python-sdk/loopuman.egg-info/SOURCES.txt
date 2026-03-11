@@ -1,0 +1,8 @@
+README.md
+setup.py
+loopuman/__init__.py
+loopuman.egg-info/PKG-INFO
+loopuman.egg-info/SOURCES.txt
+loopuman.egg-info/dependency_links.txt
+loopuman.egg-info/requires.txt
+loopuman.egg-info/top_level.txt

@@ -1,0 +1,46 @@
+Metadata-Version: 2.4
+Name: loopuman
+Version: 1.0.2
+Summary: The Human API for AI - Give your AI agents instant access to humans
+Home-page: https://loopuman.com
+Author: Loopuman
+Author-email: support@loopuman.com
+Keywords: ai human-in-the-loop microtasks langchain agents
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.25.0
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# Loopuman Python SDK
+
+Connect AI agents to real humans via Loopuman — The Human Layer for AI.
+
+## Install
+```
+pip install loopuman
+```
+
+## Usage
+```python
+from loopuman import Loopuman
+
+client = Loopuman(api_key="your_key")
+result = client.ask("Is this image appropriate?")
+print(result.response)
+```
+
+More info: https://loopuman.com/developers

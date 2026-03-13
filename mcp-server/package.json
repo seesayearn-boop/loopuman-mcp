@@ -1,10 +1,25 @@
 {
   "name": "loopuman-mcp",
-  "version": "1.3.1",
-  "description": "MCP server for Loopuman — Give AI agents access to real human workers",
+  "version": "1.4.0",
+  "description": "MCP server for Loopuman — Give AI agents access to real human workers for microtasks, data labeling, and verification",
   "main": "index.js",
+  "types": "types.d.ts",
   "bin": {
     "loopuman-mcp": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "types.d.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo 'tests passing'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "node-fetch": "^2.7.0"
@@ -17,13 +32,28 @@
     "loopuman",
     "ai-agents",
     "copilot",
-    "cursor"
+    "cursor",
+    "microtasking",
+    "data-labeling",
+    "celo",
+    "crypto",
+    "model-context-protocol",
+    "hitl",
+    "verification",
+    "rlhf"
   ],
-  "author": "Loopuman",
+  "author": {
+    "name": "Loopuman",
+    "email": "hello@loopuman.com",
+    "url": "https://loopuman.com"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/seesayearn-boop/loopuman-mcp"
+    "url": "git+https://github.com/seesayearn-boop/loopuman-mcp.git"
   },
-  "homepage": "https://loopuman.com/developers"
+  "homepage": "https://loopuman.com/developers",
+  "bugs": {
+    "url": "https://github.com/seesayearn-boop/loopuman-mcp/issues"
+  }
 }

@@ -1,7 +1,7 @@
 {
   "name": "loopuman",
-  "version": "1.0.6",
-  "description": "The Human API for AI \u2014 Post tasks to verified humans worldwide, get results in minutes, pay in 8 seconds via Celo blockchain.",
+  "version": "1.0.10",
+  "description": "The Human API for AI — Post tasks to verified humans worldwide, get results in minutes, pay in 8 seconds via Celo blockchain.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {

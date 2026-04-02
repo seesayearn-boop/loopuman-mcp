@@ -1,0 +1,23 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      apiKey:
+        type: string
+        description: "Your Loopuman API key (get one at https://loopuman.com)"
+      apiUrl:
+        type: string
+        default: "https://api.loopuman.com"
+        description: "API base URL"
+    required:
+      - apiKey
+  commandFunction: |-
+    (config) => ({
+      command: "npx",
+      args: ["-y", "loopuman-mcp@latest"],
+      env: {
+        LOOPUMAN_API_KEY: config.apiKey,
+        LOOPUMAN_API_URL: config.apiUrl || "https://api.loopuman.com"
+      }
+    })

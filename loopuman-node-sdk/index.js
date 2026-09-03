@@ -10,6 +10,7 @@ class LoopumanError extends Error {
     this.statusCode = statusCode || null;
     this.body = body || null;
   }
+}
 
 class LoopumanTimeoutError extends LoopumanError {
   constructor(taskId, timeoutSeconds) {
@@ -18,6 +19,7 @@ class LoopumanTimeoutError extends LoopumanError {
     this.taskId = taskId;
     this.timeoutSeconds = timeoutSeconds;
   }
+}
 
 class TaskResult {
   constructor(data) {
@@ -27,6 +29,7 @@ class TaskResult {
     this.workerId = data.worker_id || null;
     this.completedAt = data.completed_at || null;
     this.raw = data;
+  }
 }
 
 class Loopuman {
@@ -53,7 +56,7 @@ class Loopuman {
         headers: {
           'X-API-Key': this.apiKey,
           'Content-Type': 'application/json',
-          'User-Agent': 'loopuman-node/1.0.2',
+          'User-Agent': 'loopuman-node/1.1.2',
           ...(payload ? { 'Content-Length': Buffer.byteLength(payload) } : {}),
         },
         timeout: this.timeout,
@@ -66,6 +69,8 @@ class Loopuman {
           try { parsed = JSON.parse(data); } catch { parsed = { raw: data }; }
           if (res.statusCode >= 200 && res.statusCode < 300) {
             resolve(parsed);
+          } else if (res.statusCode === 402) {
+            resolve({ status: 402, payment: parsed.payment, task_id: parsed.task_id, raw: parsed });
           } else {
             const msg = parsed.error || parsed.message || `HTTP ${res.statusCode}`;
             reject(new LoopumanError(msg, res.statusCode, parsed));
@@ -81,6 +86,7 @@ class Loopuman {
 
   async health() { return this._request('GET', '/health'); }
 
+  // NOTE: This requires a valid API key. AI agents should use createTask() instead.
   async ask(question, options = {}) {
     const { context, budget = 50, timeoutSeconds = 300, category = 'micro' } = options;
     const body = {
@@ -93,6 +99,18 @@ class Loopuman {
   }
 
   async createTask(task) {
+    // Cross-chain gateway (new) - supports agentNetwork
+    if (task.agentNetwork) {
+      const budgetUsd = (task.budget || 50) / 100;
+      return this._request('POST', '/api/v1/agent/tasks', {
+        title: task.title,
+        description: task.description,
+        category: task.category || 'other',
+        budget_usd: budgetUsd,
+        agent_network: task.agentNetwork
+      });
+    }
+    // Legacy API-key path
     return this._request('POST', '/api/v1/tasks/bulk', {
       tasks: [{
         title: task.title, description: task.description,
@@ -100,6 +118,13 @@ class Loopuman {
         max_workers: task.maxWorkers || 1,
       }],
       webhook_url: task.webhookUrl || undefined,
+    });
+  }
+
+  async registerWorker({ name, walletAddress }) {
+    return this._request('POST', '/api/v1/workers/register', {
+      name,
+      wallet_address: walletAddress,
     });
   }
 

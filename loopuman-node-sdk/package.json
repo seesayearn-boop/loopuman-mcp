@@ -1,7 +1,7 @@
 {
   "name": "loopuman",
-  "version": "1.0.12",
-  "description": "The Human API for AI — Post tasks to verified humans worldwide, get results in minutes, pay in 8 seconds via Celo blockchain.",
+  "version": "1.1.2",
+  "description": "The Human API for AI — Post tasks to verified humans worldwide, get results in minutes, pay in 8 seconds via Celo blockchain. Supports cross-chain payments from Base and Solana.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -21,6 +21,10 @@
     "rlhf",
     "blockchain",
     "celo",
+    "base",
+    "solana",
+    "usdc",
+    "x402",
     "loopuman",
     "gig-economy"
   ],

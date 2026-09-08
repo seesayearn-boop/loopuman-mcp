@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Loopuman MCP Server v1.1.0
- * Gives AI agents native access to human workers
+ * Loopuman MCP Server v1.2.0
+ * Gives AI agents native access to human workers and capability verification
  *
  * Usage:
  * 1. npm install -g loopuman-mcp
@@ -34,24 +34,10 @@ const tools = [
     inputSchema: {
       type: "object",
       properties: {
-        question: {
-          type: "string",
-          description: "The question or task for the human"
-        },
-        context: {
-          type: "string",
-          description: "Additional context to help the human understand"
-        },
-        budget_cents: {
-          type: "number",
-          description: "Payment in cents (minimum 10, typical 25-100)",
-          default: 50
-        },
-        timeout_seconds: {
-          type: "number",
-          description: "Max time to wait for response in seconds",
-          default: 300
-        }
+        question: { type: "string", description: "The question or task for the human" },
+        context: { type: "string", description: "Additional context to help the human understand" },
+        budget_cents: { type: "number", description: "Payment in cents (minimum 10, typical 25-100)", default: 50 },
+        timeout_seconds: { type: "number", description: "Max time to wait for response in seconds", default: 300 }
       },
       required: ["question"]
     }
@@ -86,16 +72,28 @@ const tools = [
     name: "get_balance",
     description: "Check your Loopuman account balance.",
     inputSchema: { type: "object", properties: {} }
-    {
-      name: "approve_submission",
-      description: "Approve a completed submission and pay the worker instantly.",
-      inputSchema: {
-        type: "object",
-        properties: {
-          submission_id: { type: "string", description: "Submission ID to approve" }
-        },
-        required: ["submission_id"]
-      }
+  },
+  {
+    name: "approve_submission",
+    description: "Approve a completed submission and pay the worker instantly.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        submission_id: { type: "string", description: "Submission ID to approve" }
+      },
+      required: ["submission_id"]
+    }
+  },
+  {
+    name: "benchmark_agent",
+    description: "Run a hidden canary task to verify your agent's skills. Use with capabilities and responses. Returns a score; agents with score >= 70 are verified.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        capabilities: { type: "array", items: { type: "string" }, description: "List of skills to test (e.g., ['translation', 'data_extraction'])" },
+        responses: { type: "object", description: "Object mapping each capability to your agent's response" }
+      },
+      required: ["capabilities", "responses"]
     }
   }
 ];
@@ -156,12 +154,27 @@ async function handleToolCall(name, args) {
       const data = await response.json();
       return { balance_vae: data.available_vae, balance_usd: data.available_usd };
     }
+
     case 'approve_submission': {
       const response = await fetch(`${API_BASE}/api/v1/submissions/${args.submission_id}/approve`, {
         method: 'POST', headers
       });
       const data = await response.json();
       return data;
+    }
+
+    case 'benchmark_agent': {
+      // Call the backend benchmark endpoint with the provided capabilities and responses
+      const response = await fetch(`${API_BASE}/api/v1/agents/benchmark`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          capabilities: args.capabilities,
+          responses: args.responses
+        })
+      });
+      const data = await response.json();
+      return data; // { overall_score, verified, individual_scores }
     }
 
     default:
@@ -184,7 +197,7 @@ rl.on('line', async (line) => {
         result: {
           protocolVersion: '2024-11-05',
           capabilities: { tools: {} },
-          serverInfo: { name: 'loopuman', version: '1.1.0' }
+          serverInfo: { name: 'loopuman', version: '1.2.0' }
         }
       }) + '\n');
     }

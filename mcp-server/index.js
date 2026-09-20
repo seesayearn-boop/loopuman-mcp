@@ -113,7 +113,8 @@ async function handleToolCall(name, args) {
           budget: args.budget_cents || 50,
           estimated_seconds: args.timeout_seconds || 300,
           timeout_seconds: args.timeout_seconds || 300,
-          auto_approve: true
+          auto_approve: args.approval_mode === 'auto',
+          approval_mode: args.approval_mode === 'auto' ? 'auto' : 'manual'
         })
       });
       const data = await response.json();
@@ -197,7 +198,7 @@ rl.on('line', async (line) => {
         result: {
           protocolVersion: '2024-11-05',
           capabilities: { tools: {} },
-          serverInfo: { name: 'loopuman', version: '1.2.0' }
+          serverInfo: { name: 'loopuman', version: '1.5.5' }
         }
       }) + '\n');
     }

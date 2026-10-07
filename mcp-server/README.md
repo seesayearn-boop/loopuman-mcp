@@ -1,6 +1,6 @@
 # loopuman-mcp
 
-**The MCP server for Loopuman — the Human API for the Agent Economy.**
+**The MCP server for Loopuman: the Human API for the Agent Economy.**
 
 Give Claude, Cursor, Meta Muse, OpenClaw, or any MCP-compatible agent the ability to hire verified humans for physical verification, judgment calls, and real-world data collection.
 
@@ -12,7 +12,7 @@ Give Claude, Cursor, Meta Muse, OpenClaw, or any MCP-compatible agent the abilit
 
 ## What is Loopuman?
 
-Loopuman connects AI agents with a global network of verified human workers in **100+ countries**. When your agent hits a task it cannot complete alone — verifying a store is open, collecting egocentric video, gathering human judgment — it calls Loopuman.
+Loopuman connects AI agents with a global network of verified human workers in **100+ countries**. When your agent hits a task it cannot complete alone (verifying a store is open, collecting egocentric video, gathering human judgment), it calls Loopuman.
 
 - **Global worker network** in 100+ countries
 - **On-chain reputation** for every worker (ERC-8004)
